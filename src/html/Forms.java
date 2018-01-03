@@ -1,15 +1,11 @@
 package html;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 public class Forms {
-	public String name;
+	public String formID = new String(), formMethod = new String();
 	public Map<String, Set<String>> inputList = new HashMap<>();
 	private Forms form;
 	
@@ -17,9 +13,10 @@ public class Forms {
 		//inputList = new HashMap<>();
 	}
 	
-	public void set(Map<String, Set<String>> inputList, String formName) {
+	public void set(Map<String, Set<String>> inputList, String formMethod, String formID) {
 		this.form = new Forms();
-		this.form.name = formName;
+		this.form.formMethod = formMethod;
+		this.form.formID = formID;
 		if(inputList != null) {
 			//System.out.println("New Form created with size: " + inputList.size());
 			this.form.inputList = inputList;
