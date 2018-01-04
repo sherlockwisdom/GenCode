@@ -136,6 +136,7 @@ int main(int argc, char** argv) {
 
 	while(getline(readfile, temp)) file.push_back(temp);
 	readfile.close();
+	system(string("rm Generated/" + gen_filename).c_str());
 
 	Form form;
 	for (auto i: file) {
