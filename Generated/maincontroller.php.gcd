@@ -1,0 +1,25 @@
+Start-Form
+Form-name: 
+method: post
+action: #
+inputs: 
+cat
+newsubcategory
+End-Form
+
+Start-Form
+Form-name: 
+method: post
+action: ../backend/addPost.php
+submits: 
+first button for it
+inputs: 
+officiallink
+title
+deadline
+category
+subcategory
+region
+first button for it
+End-Form
+
