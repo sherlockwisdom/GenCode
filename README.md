@@ -1,8 +1,10 @@
 # How to run
 
 ## Dependency
-Java<br>
-GCC (capable of building C++11)<br>
+<ul>
+<li>Java</li><br>
+<li>GCC (capable of building C++11)<br>
+</ul>
 <br>
 
 ## Linux
