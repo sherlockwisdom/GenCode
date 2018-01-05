@@ -1,0 +1,29 @@
+Start-Form
+Form-name: 
+method: post
+action: /login/index.php
+submits: 
+request
+inputs: 
+request
+password
+phonenumber
+persistent
+End-Form
+
+Start-Form
+Form-name: 
+method: post
+action: /login/index.php
+submits: 
+request
+inputs: 
+request
+firstname
+password
+re-password
+phonenumber
+email
+lastname
+End-Form
+
