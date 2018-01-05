@@ -3,9 +3,6 @@
 
 using namespace std;
 
-
-
-
 int main(int argc, char** argv) {
 	if(argc != 5) {
 		cout << "Error with input... please check all syntax!" << endl;
