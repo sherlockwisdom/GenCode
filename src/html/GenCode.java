@@ -10,13 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
+
 public class GenCode {
 	private String htmlFile;
 	private List<Forms> formList = new ArrayList<Forms>();
+	
+	public GenCode() {}
 	
 	public GenCode(String htmlFile) throws IOException {
 		this.htmlFile = htmlFile;
@@ -126,6 +130,18 @@ public class GenCode {
 			outPutFile.write("End-Form\n\n");
 		}
 		outPutFile.close();
+	}
+	
+	public void editHTML() throws IOException {
+		String input = "/home/maestro/Desktop/add.php";
+		File file = new File(input);
+
+		Document doc = Jsoup.parse(file, "UTF-8", "");
+
+        //final File f = new File("filename.html");
+        FileWriter outputFile = new FileWriter("/home/maestro/Desktop/new.html", false);
+        outputFile.write(doc.outerHtml());
+        outputFile.close();
 	}
 
 }
