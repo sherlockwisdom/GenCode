@@ -4,12 +4,17 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+	/* * Start of input check */
+	//input length checks
 	if(argc != 5) {
+		cout << "Number of args: " << argc << endl;
 		cout << "Error with input... please check all syntax!" << endl;
 		return 1;
 	}
+	
 	string input_file, output_file;
 
+	//CLI argument extraction
 	for(int i=1;i<argc;++i) {
 		if(string(argv[i]) == "-f") {
 			input_file = argv[i+1];
@@ -19,22 +24,39 @@ int main(int argc, char** argv) {
 			++i;
 		}
 	}
+	if(input_file.empty()) {
+		cout << "No input file... code's gonna break now!" << endl;
+		return 1;
+	}
+	if(output_file.empty()) {
+		cout << "No output file stated... using default" << endl;
+		output_file = "maincontroller.php";
+	}
+	cout << "Input file: " << input_file << endl;
+	cout << "Output file: " << output_file << endl;
+	/* * End of input check **/
 
-	cout << "Input file: " << input_file << "\nOutput file: " << output_file << endl;
 
+	/* * Start running Java parser **/
 	cout << "Running Java parser..." << endl;
-	string javaCommand = "java -jar genCode.jar -f " + input_file + " -o Generated/" + output_file + ".gcd";
+	string javaCommand = "java -jar genCode.jar -f " + input_file + " -o Outputs/Controller/" + output_file + ".gcd";
 	system(javaCommand.c_str());
 
 	string gen_filename = output_file + ".gcd";
-	ifstream check_file(string("Generated/" + gen_filename).c_str());
+	ifstream check_file(string("Outputs/Controller/" + gen_filename).c_str());
 	if(check_file.good()) cout << "Output generated!..." << endl;
-	else cout << "No output generated!..." << endl;
+	else {
+		cout << "No output generated!..." << endl;
+		cout << "Your could try again!..." << endl;
+		return 2;
+	}
 	check_file.close();
+	/** Java Parser ended here  */
 
 
-	ifstream readfile(string("Generated/" + gen_filename).c_str());
-	ofstream writefile(string("Generated/" + output_file).c_str());
+	/* Creating controller files */
+	ifstream readfile(string("Outputs/Controller/" + gen_filename).c_str());
+	ofstream writefile(string("outputs/Controller/" + output_file).c_str());
 	string temp, conditions = "<?php\n\n";
 
 	vector<Form> forms;
@@ -44,14 +66,10 @@ int main(int argc, char** argv) {
 		cout << "Input file can't be read! FILE[" << input_file << "]" << endl;
 		return 2;
 	}
-	if(!writefile.good()) {
-		cout << "Output file can't be read! FILE[" << output_file << "]" << endl;
-		return 2;
-	}
 
 	while(getline(readfile, temp)) file.push_back(temp);
 	readfile.close();
-	//system(string("rm Generated/" + gen_filename).c_str());
+	system(string("rm Outputs/Controller/" + gen_filename).c_str());
 
 	Form form;
 	for (auto i: file) {

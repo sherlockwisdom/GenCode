@@ -1,2 +1,2 @@
 all:
-	g++ genCode.cxx -o main -std=c++1y
+	g++ cpp_src/genCode.cxx -o main -std=c++1y

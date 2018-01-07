@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Rsrc-Class-Path: ./ jsoup-1.11.2.jar
-Class-Path: .
-Rsrc-Main-Class: html.Main
-Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
-

@@ -1,0 +1,9 @@
+Here's the run dow the how the project should work
+
+
+Idea version:
+
+Input HTML file
+Creates controller folder and makes controller file.
+    if(more html files are added, it appends to the controller file already created)
+Edits the controller file to make all the forms point to the controller folder

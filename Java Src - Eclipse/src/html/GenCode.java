@@ -110,7 +110,7 @@ public class GenCode {
 		/*
 		 * if submit == found, create post checkers -> then input all other inputs
 		 */
-		
+		//this.newHtmlFile = fileName;
 		FileWriter outPutFile = new FileWriter(fileName, false);
 		for (Forms form : this.formList) {
 			System.out.println("Form-name: \nname: " + form.formID + "\nmethod: " + form.formMethod);
@@ -133,15 +133,20 @@ public class GenCode {
 	}
 	
 	public void editHTML() throws IOException {
-		String input = "/home/maestro/Desktop/add.php";
-		File file = new File(input);
+		//String input = "/home/maestro/Desktop/add.php";
+		File file = new File(this.htmlFile);
 
 		Document doc = Jsoup.parse(file, "UTF-8", "");
 
         //final File f = new File("filename.html");
-        FileWriter outputFile = new FileWriter("/home/maestro/Desktop/new.html", false);
-        outputFile.write(doc.outerHtml());
-        outputFile.close();
+		List<FormElement> forms = doc.getAllElements().forms();
+		
+		for (FormElement form : forms) form.attr("action", "maincontroller.php");
+		
+		//System.out.println("Output file: " + this.newHtmlFile);
+        FileWriter writeFile = new FileWriter("Outputs/" + file.getName(), false);
+        writeFile.write(doc.outerHtml());
+        writeFile.close();
 	}
 
 }
