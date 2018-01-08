@@ -4,16 +4,19 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-	/* * Start of input check */
+	Form form;
+	vector<Form> forms;
+	vector<string> file;
+	string input_file, output_file;
+
+	/* * Start of input check
 	//input length checks
 	if(argc != 5) {
 		cout << "Number of args: " << argc << endl;
 		cout << "Error with input... please check all syntax!" << endl;
 		return 1;
 	}
-	
-	string input_file, output_file;
-
+	*/
 	//CLI argument extraction
 	for(int i=1;i<argc;++i) {
 		if(string(argv[i]) == "-f") {
@@ -24,54 +27,37 @@ int main(int argc, char** argv) {
 			++i;
 		}
 	}
+
 	if(input_file.empty()) {
 		cout << "No input file... code's gonna break now!" << endl;
 		return 1;
 	}
-	if(output_file.empty()) {
-		cout << "No output file stated... using default" << endl;
-		output_file = "maincontroller.php";
-	}
-	cout << "Input file: " << input_file << endl;
-	cout << "Output file: " << output_file << endl;
-	/* * End of input check **/
-
+	cout << "INPUT FILE: " << input_file << endl;
 
 	/* * Start running Java parser **/
-	cout << "Running Java parser..." << endl;
-	string javaCommand = "java -jar genCode.jar -f " + input_file + " -o Outputs/Controller/" + output_file + ".gcd";
+	cout << "RUNNING JAVA CODES - [.][.][.]" << endl;
+	string javaCommand = output_file.empty() ? "java -jar genCode.jar -f " + input_file;
+	cout << "JAVA COMMAND: " << javaCommand << endl;
 	system(javaCommand.c_str());
 
-	string gen_filename = output_file + ".gcd";
-	ifstream check_file(string("Outputs/Controller/" + gen_filename).c_str());
-	if(check_file.good()) cout << "Output generated!..." << endl;
+	ifstream jarGeneratedFiles(string(input_file + ".gcd").c_str());
+	if(jarGeneratedFiles.good()) cout << "JAVA GENERATED SUCCESSFULLY!" << endl;
 	else {
-		cout << "No output generated!..." << endl;
-		cout << "Your could try again!..." << endl;
+		cout << "NO OUTPUT GENERATED!..." << endl;
+		cout << "you could try again!..." << endl;
 		return 2;
 	}
-	check_file.close();
 	/** Java Parser ended here  */
 
-
 	/* Creating controller files */
-	ifstream readfile(string("Outputs/Controller/" + gen_filename).c_str());
-	ofstream writefile(string("outputs/Controller/" + output_file).c_str());
+	ofstream mainController(string(output_file).c_str());
 	string temp, conditions = "<?php\n\n";
 
-	vector<Form> forms;
-	vector<string> file;
-
-	if(!readfile.good()) {
-		cout << "Input file can't be read! FILE[" << input_file << "]" << endl;
-		return 2;
-	}
-
 	while(getline(readfile, temp)) file.push_back(temp);
-	readfile.close();
-	system(string("rm Outputs/Controller/" + gen_filename).c_str());
+	jarGeneratedFiles.close();
+	system(string("rm " + input_file + ".gcd").c_str());
+	cout << "GENERATED FILE REMOVED!" << endl;
 
-	Form form;
 	for (auto i: file) {
 		if(i.find("Start-Form") != string::npos)  {
 			form = Form::get();
@@ -83,11 +69,12 @@ int main(int argc, char** argv) {
 		}
 		else form.add(i);
 	}
-	cout << "Number of forms: " << forms.size() << endl;
+	cout << endl;
+	cout << "NUMBER OF FORMS " << forms.size() << endl;
 	for(auto i: forms) i.write(conditions);
-	cout << "Done writing.." << endl;
+	cout << "DONE WRITING!" << endl;
 	conditions += "\n\n?>\n";
-	
+
 	writefile << conditions;
 	writefile.close();
 
