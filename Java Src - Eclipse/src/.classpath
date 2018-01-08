@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path=""/>
-	<classpathentry kind="lib" path="/home/maestro/Desktop/Development/maestro/GenCode/Java Src - Eclipse/libs/jsoup-1.11.2.jar"/>
-	<classpathentry kind="output" path=""/>
-</classpath>
