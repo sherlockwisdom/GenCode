@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
 	Form form;
 	vector<Form> forms;
 	vector<string> file;
-	string input_file, output_file;
+	string input_file, output_file, project_folder = "./";
 
 	/* * Start of input check
 	//input length checks
@@ -25,6 +25,9 @@ int main(int argc, char** argv) {
 		} else if(string(argv[i]) == "-o") {
 			output_file = argv[i+1];
 			++i;
+		} else if(string(argv[i]) == "-p") {
+			project_folder = argv[i+1];
+			++i;
 		}
 	}
 
@@ -32,11 +35,13 @@ int main(int argc, char** argv) {
 		cout << "No input file... code's gonna break now!" << endl;
 		return 1;
 	}
+
 	cout << "INPUT FILE: " << input_file << endl;
 
 	/* * Start running Java parser **/
 	cout << "RUNNING JAVA CODES - [.][.][.]" << endl;
-	string javaCommand = "java -jar genCode.jar -f " + input_file;
+	string javaCommand = project_folder != "./" ? "java -jar genCode.jar -f " + input_file + " -p " + project_folder : "java -jar genCode.jar -f " + input_file;
+
 	cout << "JAVA COMMAND: " << javaCommand << endl;
 	system(javaCommand.c_str());
 
@@ -50,7 +55,7 @@ int main(int argc, char** argv) {
 	/** Java Parser ended here  */
 
 	/* Creating controller files */
-	ofstream mainController("maincontroller.php");
+	ofstream mainController(project_folder + "maincontroller.php");
 	string temp, conditions = "<?php\n\n";
 
 	while(getline(jarGeneratedFiles, temp)) file.push_back(temp);
