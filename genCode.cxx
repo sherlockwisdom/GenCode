@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 
 	/* * Start running Java parser **/
 	cout << "RUNNING JAVA CODES - [.][.][.]" << endl;
-	string javaCommand = output_file.empty() ? "java -jar genCode.jar -f " + input_file;
+	string javaCommand = "java -jar genCode.jar -f " + input_file;
 	cout << "JAVA COMMAND: " << javaCommand << endl;
 	system(javaCommand.c_str());
 
@@ -50,10 +50,10 @@ int main(int argc, char** argv) {
 	/** Java Parser ended here  */
 
 	/* Creating controller files */
-	ofstream mainController(string(output_file).c_str());
+	ofstream mainController("maincontroller.php");
 	string temp, conditions = "<?php\n\n";
 
-	while(getline(readfile, temp)) file.push_back(temp);
+	while(getline(jarGeneratedFiles, temp)) file.push_back(temp);
 	jarGeneratedFiles.close();
 	system(string("rm " + input_file + ".gcd").c_str());
 	cout << "GENERATED FILE REMOVED!" << endl;
@@ -75,8 +75,8 @@ int main(int argc, char** argv) {
 	cout << "DONE WRITING!" << endl;
 	conditions += "\n\n?>\n";
 
-	writefile << conditions;
-	writefile.close();
+	mainController << conditions;
+	mainController.close();
 
 	return 0;
 }
