@@ -2,6 +2,7 @@
 #include <vector>
 #include <map>
 
+
 using namespace std;
 
 class Form {
@@ -22,7 +23,7 @@ public:
 		if(tsubmits) {
 			if(i.find(':') !=string::npos) tsubmits = false;
 			else {
-				if(!i.empty()) { 
+				if(!i.empty()) {
 					submits.push_back(i);
 					cout << "values: " << i << endl;
 				}
@@ -31,13 +32,13 @@ public:
 		else if(inputsComing) {
 			if(i.find(':') !=string::npos) inputsComing = false;
 			else {
-				if(!i.empty()) { 
+				if(!i.empty()) {
 					inputs.push_back(i);
 					cout << "values: " << i << endl;
 				}
 			}
 		}
-		
+
 		if(i.find("submits:") != string::npos) this->tsubmits = true;
 		else if(i.find("name:") != string::npos) {
 			this->name = i.substr(i.find(" ")+1, i.size()-1);
@@ -56,7 +57,7 @@ public:
 
 	static Form get() {
 		Form form;
-		return form;	
+		return form;
 	}
 
 	void write(string& conditions) {
@@ -68,7 +69,7 @@ public:
 		if(this->submits.size() > 0) {
 			cout << "submits present!" << endl;
 			conditions += "if(isset(" + mainMethod + "['" + this->submits[0] + "'])) {\n";
-			
+
 			for(auto i: this->inputs) {
 				conditions += "\t$" + replace_spaces(i) + " = " + mainMethod + "['" + i + "'];\n";
 				cout << "Added some conditions" << endl;
