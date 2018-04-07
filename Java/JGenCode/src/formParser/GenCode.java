@@ -17,26 +17,41 @@ import org.jsoup.select.*;
 
 
 public class GenCode {
-	private String htmlFile, outputFile, projectFolder;
+	private String htmlFile = new String();
+	private String outputFile = new String();
+	private String projectFolder = new String();
+	private boolean url = false;
 	private List<Forms> formList = new ArrayList<Forms>();
+	private List<Inputs> inputList = new ArrayList<Inputs>();
 	
 	public GenCode() {}
 	
-	public GenCode(String htmlFile, String outputFile, String projectFolderName) throws IOException {
+	public GenCode(String htmlFile, String outputFile, String projectFolderName, boolean url) throws IOException {
 		this.htmlFile = htmlFile;
 		this.outputFile = outputFile;
 		this.projectFolder = projectFolderName;
+		this.url = url;
 		
 		parse();
 	}
 	
 	private void parse() throws IOException {
-		File input = new File(this.htmlFile);
-		Document doc = Jsoup.parse(input, "UTF-8", "");
+		File input = null;Document doc = null;
+		if(this.url) {
+			System.out.println("Found url: " + this.htmlFile);
+			doc = Jsoup.connect(this.htmlFile).get();
+		} else {
+			input = new File(this.htmlFile);
+			System.out.println("Fond file: " + this.htmlFile);
+			doc = Jsoup.parse(input, "UTF-8", "");
+		}
 		
 		List<FormElement> forms = doc.getAllElements().forms();
-		System.out.println("Found: " + forms.size() + " forms\n");
+		Elements _inputs = doc.getAllElements().select("input");
+		System.out.println("Found: " + forms.size() + " forms");
+		System.out.println("Found: " + _inputs.size() + " inputs\n");
 		
+//		All form information goes in here
 		for (Element form : forms) {
 			//System.out.println("All Forms elements: " + form.getAllElements().html());
 			Map<String, Set<String>> inputList = new HashMap<>();
@@ -89,41 +104,74 @@ public class GenCode {
 				//System.out.println("Form added\n");
 			}
 		}
-	}
-	
-	public void getForms() {
-		for (Forms form : this.formList) {
-			System.out.println("Form name: " + form.formID);
-			
-			for (Map.Entry<String, Set<String>> input : form.inputList.entrySet()) {
-				System.out.println("For - " + input.getKey() + " -");
-				
-				for (String vals : input.getValue()) {
-					System.out.println(vals);
-				}
+		
+//		Begin extracting all rougue inputs and their forms
+//		Select all element which is not in div
+		Elements ___inputs = doc.body().children();
+		Elements inp = new Elements();
+		
+		for(Element in : ___inputs) {
+			if(in.select("form").size() < 1) {
+				inp.addAll(in.select("input"));
 			}
-			System.out.println("");
+		}
+//		doc.body().before(node).
+		System.out.println("Div Inputs: " + inp.size());
+		
+		for(Element in : inp) {
+			Inputs _input = new Inputs();
+			String name = in.attr("name");
+			if(name.length() > 0) {
+				_input.set(name);
+				System.out.println("[TAG]: " + in.toString());
+				inputList.add(_input);
+			}
 		}
 	}
 	
+//	public void getForms() {
+//		for (Forms form : this.formList) {
+////			System.out.println("Form name: " + form.formID);
+//			
+//			for (Map.Entry<String, Set<String>> input : form.inputList.entrySet()) {
+////				System.out.println("For - " + input.getKey() + " -");
+//				
+//				for (String vals : input.getValue()) {
+////					System.out.println(vals);
+//				}
+//			}
+//			System.out.println("");
+//		}
+//	}
+	
 	public void writeFile() throws IOException {
+		System.out.println("Writing to file");
 		FileWriter outPutFile = new FileWriter(this.projectFolder + "/" + this.outputFile, false);
+		System.out.println("Output file: " + this.projectFolder + "/" + this.outputFile);
 		for (Forms form : this.formList) {
-			System.out.println("Form-name: \nname: " + form.formID + "\nmethod: " + form.formMethod);
+//			System.out.println("Form-name: \nname: " + form.formID + "\nmethod: " + form.formMethod);
 			
 			outPutFile.write("Start-Form\n");
 			outPutFile.write("Form-name: " + form.formID + "\nmethod: " + form.formMethod + "\naction: " + form.formAction + "\n");
 			
 			for (Map.Entry<String, Set<String>> input : form.inputList.entrySet()) {
-				System.out.println("For - " + input.getKey() + " -");
+//				System.out.println("For - " + input.getKey() + " -");
 				outPutFile.write(input.getKey() + ": \n");
 				for (String vals : input.getValue()) {
-					System.out.println(vals);
+//					System.out.println(vals);
 					outPutFile.write(vals + "\n");
 				}
 			}
-			System.out.println("");
+//			System.out.println("");
 			outPutFile.write("End-Form\n\n");
+		}
+		
+		if(inputList.size() > 0) {
+			outPutFile.write("Input-Starts\n");
+			for(Inputs input: inputList) {
+				outPutFile.write(input.get() + "\n");
+			}
+			outPutFile.write("Input-Ends\n");
 		}
 		outPutFile.close();
 	}

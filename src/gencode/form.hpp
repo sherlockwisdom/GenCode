@@ -1,3 +1,6 @@
+#ifndef FORM_H_INCLUDED_
+#define FORM_H_INCLUDED_
+
 #include <iostream>
 #include <vector>
 #include <map>
@@ -93,3 +96,5 @@ public:
 		//writefile.close();
 	}
 };
+
+#endif
