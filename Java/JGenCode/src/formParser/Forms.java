@@ -1,39 +1,30 @@
 package formParser;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-public class Forms {
-	public String formID = new String(), formMethod = new String(), formAction = new String();
-	public Map<String, Set<String>> inputList = new HashMap<>();
-	private Forms form;
+//TODO: if input contains the required tag, then make sure it's not empty
+public class Forms extends PageProperties {
 	
-	public Forms() {
-		//inputList = new HashMap<>();
-	}
+	public Forms() {}
 	
-	public void set(Map<String, Set<String>> inputList, String formMethod, String formAction, String formID) {
-		this.form = new Forms();
-		this.form.formMethod = formMethod;
-		this.form.formAction = formAction;
-		this.form.formID = formID;
-		if(inputList != null) {
-			//System.out.println("New Form created with size: " + inputList.size());
-			this.form.inputList = inputList;
-		} else {
-			System.out.println("Null input size");
+	public String log() {
+		String method = this.attributeValueStore.get("method").toUpperCase(); //TODO: change to upper
+		
+		this.corpus = "\n\tif($_SERVER['REQUEST_METHOD'] == '" + method + "' ";
+		for(PageProperties pageProperties : this.pageProperties) {
+			if(pageProperties.find("type", "submit")) {
+				this.corpus += " && isset($_" + method + "['" + pageProperties.attributeValueStore.get("name") + "'])";
+				break;
+			}
 		}
+		this.corpus += ") {\n";
+		for(PageProperties pageProperties : this.pageProperties) {
+			pageProperties.setMethod(method);
+			pageProperties.setIndent(2);
+			this.corpus += pageProperties.log();	
+		}
+		this.corpus += "\t}";
+		
+		return this.corpus;
 	}
-	
-	public Forms get() {
-		//System.out.println("Returning this: " + form.inputList.size());
-		return this.form;
-	}
-	
-	public int size() {
-		return this.inputList.size();
-	}
-	
 	
 }

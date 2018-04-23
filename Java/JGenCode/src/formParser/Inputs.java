@@ -1,14 +1,17 @@
 package formParser;
 
-public class Inputs {
-	private String name = new String();
+public class Inputs extends PageProperties {
+	
 	public Inputs() {}
 	
-	public void set(String name) {
-		this.name = name;
-	}
-	
-	public String get() {
-		return this.name;
+	public String log() {
+		
+		if(!this.attributeValueStore.get("name").isEmpty()) {
+			String name = this.attributeValueStore.get("name");
+			this.corpus = this.tabString + "$" + name + " = $_" + this.method + "['" + name + "'];\n";
+			return this.corpus;
+		}
+		
+		return "";	
 	}
 }

@@ -6,6 +6,10 @@ using namespace std;
 int main(int argc, char** argv) {
   GENCODE gencode;
 
+  if(argc > 1) {
+    // cout << "Commands are found" << endl;
+  }
+
   if(gencode.launchParser()) {
     if(gencode.parseGCD()) {
       LOG::State("Parsed good!");
@@ -18,3 +22,12 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+
+
+/*
+
+
+
+
+
+*/ 

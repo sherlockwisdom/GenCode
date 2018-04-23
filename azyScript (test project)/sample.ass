@@ -1,0 +1,6 @@
+<!-- This project should have the standards for Afkanerd unified build model -->
+
+
+Generate layout = {default};
+Navigations.vertical = {dashboard, clients, users};
+Navigations.horizontal = {dropdown.file{backup, load}, settings}};

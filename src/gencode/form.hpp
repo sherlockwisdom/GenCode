@@ -65,6 +65,7 @@ public:
 
 	void write(string& conditions) {
 		//cout << "Writing to new form" << endl;
+		bool endit = false;
 		conditions += "/* Form action - " + this->action + " */\n";
 		string mainMethod;
 		if(method == "post") mainMethod = "$_POST";
@@ -72,7 +73,7 @@ public:
 		if(this->submits.size() > 0) {
 			cout << "submits present!" << endl;
 			conditions += "if(isset(" + mainMethod + "['" + this->submits[0] + "'])) {\n";
-
+			endit = true;
 			for(auto i: this->inputs) {
 				conditions += "\t$" + replace_spaces(i) + " = " + mainMethod + "['" + i + "'];\n";
 				cout << "Added some conditions" << endl;
@@ -90,7 +91,7 @@ public:
 				//conditions += "\n}";
 			}
 		}
-		conditions += "\n\t/* your code goes here... */\n\n}\n\n";
+		conditions += endit ? "\n\t/* your code goes here... */\n\n}\n\n" : "\n\t/* your code goes here... */\n\n";
 		//ofstream writefile("maincontroller.php", ios::app);
 		//writefile << conditions;
 		//writefile.close();

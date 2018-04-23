@@ -23,6 +23,7 @@ public class GenCode {
 	private boolean url = false;
 	private List<Forms> formList = new ArrayList<Forms>();
 	private List<Inputs> inputList = new ArrayList<Inputs>();
+	private List<GenCode> generatedCode = new ArrayList<GenCode>();
 	
 	public GenCode() {}
 	
@@ -51,8 +52,11 @@ public class GenCode {
 		System.out.println("Found: " + forms.size() + " forms");
 		System.out.println("Found: " + _inputs.size() + " inputs\n");
 		
+		
+		
 //		All form information goes in here
 		for (Element form : forms) {
+			// Find the last of how all this things fit in the main picture without changing a lot of other things
 			//System.out.println("All Forms elements: " + form.getAllElements().html());
 			Map<String, Set<String>> inputList = new HashMap<>();
 			Set<String> lInputs = new HashSet<String>();
@@ -126,6 +130,14 @@ public class GenCode {
 				System.out.println("[TAG]: " + in.toString());
 				inputList.add(_input);
 			}
+		}
+		
+		Elements gencode = doc.select("gencode");
+		
+		for(Element gen : gencode) {
+			//find everything with the gencode attributes in here`
+			GenCode genCode = new GenCode();
+			
 		}
 	}
 	
