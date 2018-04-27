@@ -37,7 +37,8 @@ public class GenCode {
 	}
 	
 	private void parse() throws IOException {
-		File input = null;Document doc = null;
+		File input = null;
+		Document doc = null;
 		if(this.url) {
 			System.out.println("Found url: " + this.htmlFile);
 			doc = Jsoup.connect(this.htmlFile).get();

@@ -12,6 +12,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+
+//TODO: Check symbols in name
 public class Page {
 	
 	private String inputSource = new String();
