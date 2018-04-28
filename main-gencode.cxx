@@ -142,6 +142,10 @@ protected:
           check_table(this->name);
           check_fields(solo_props);
         }
+
+        else {
+          check_table(table);
+        }
       }
     }
   };
@@ -162,7 +166,8 @@ public:
       cout << "Creating database" << endl;
       command = "php php/database.php --database " + name + " --make";
       cout << "_phpquery: " << command << endl;
-      if(pipe_terminal(command) != "true") {
+      output = pipe_terminal(command);
+      if(output.find("true")==string::npos) {
         cout << "Failed to create database" << endl;
       }
     }
