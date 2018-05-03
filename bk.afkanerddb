@@ -1,0 +1,4 @@
+database:afkanerd
+tables:people:[str.alias, str.name, str.profession, i.age]/news/users:[i.main_id]
+
+database:sherlock

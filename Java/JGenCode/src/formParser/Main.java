@@ -1,6 +1,8 @@
 package formParser;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 
 public class Main {
@@ -16,33 +18,21 @@ public class Main {
 
 
 	public static void main(String[] args) throws IOException {
-		inputSource = "/home/sherlock/Desktop/Stephanie.html";
+		inputSource = "/var/www/html/edoctar-production/pages/Consultation/form.php";
 		if(args.length > 1)
 			parseTerminalArguments(args);
 		
-		if(!folder.isEmpty()) {
-		    Files.find(Paths.get(sDir), 999, (p, bfa) -> bfa.isRegularFile()).forEach(System.out::println);
-		}
+//		if(!folder.isEmpty()) {
+//		    Files.find(Paths.get(sDir), 999, (p, bfa) -> bfa.isRegularFile()).forEach(System.out::println);
+//		}
 		
-//		Page page = new Page(inputSource);
-//		
-//		page.add("input")
-//			.add("form")
-//			.add("gencode");
-//		page.make();
-//		
-//		generateCode.add(page)
-//			.make();
+		Page page = new Page(inputSource);
 		
-//		GenClass genClass = new GenClass();
-//		genClass.file(classFile);
-//		genClass.generate();
-//		System.out.println(genClass.log());
+		page.add("form");
+		page.make();
 		
-//		Database db = new Database();
-//		db.file("/home/sherlock/Desktop/database.gendb");
-//		db.parse();
-////		System.out.println("_db: " + db.log());
+		generateCode.add(page)
+			.make();
 	}
 	
 	private static void parseTerminalArguments(String[] args) {

@@ -91,7 +91,7 @@ switch($command) {
 
 
 	case "--create_field":
-	$type_list = array("i"=>"INT", "str"=>"CHAR(255)"); //TODO expand list to be more extensive
+	$type_list = array("i"=>"INT", "str"=>"CHAR(255)", "date"=>"date"); //TODO expand list to be more extensive
 	$conn = new mysqli($servername, $username, $password, $database);
 	$vals = explode('.', $value);
 	$type = $type_list[$vals[0]];

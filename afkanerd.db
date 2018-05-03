@@ -1,4 +1,2 @@
-database:afkanerd
-tables:people:[str.alias, str.name, str.profession, i.age]/news/users:[i.main_id]
-
-database:sherlock
+database:eDoctar
+tables:personal_information:[str.name, date.date_of_birth, str.place_of_birth, str.gender, str.nationality, str.marital_status]

@@ -61,11 +61,16 @@ public class Page {
 	}
 	
 	private void parseForms(Elements elements) {
+		String formCorpus = new String();
+		System.out.println("Found: " + elements.size() + " forms");
 		for(Element element : elements) {
 			Forms form = new Forms();
 			
 			String method = element.attr("method");
 			String action = element.attr("action");
+			
+			if(action.isEmpty())
+				continue;
 			
 			form.add("method", method);
 			form.add("action", action);
@@ -117,9 +122,27 @@ public class Page {
 				form.add(button);
 			}
 			
+			for(Element inputs : element.getElementsByTag("textarea")) {
+//				String type = inputs.attr("type");
+				String name = inputs.attr("name");
+				
+//				TODO Special case if value is set
+//				String value = input.attr("value");
+				
+//				registerToFile("input", "type", type);
+//				registerToFile("input", "name", name);
+				Inputs input = new Inputs();
+//				input.add("type", type);
+				input.add("name", name);
+				
+				form.add(input);
+			}
+			
 //			System.out.print("<?php\n" + form.log() + "\n\n?>");
-			page.put("form", form.log());
+			formCorpus += form.log();
+//			System.out.println("--- Form LOG---- \n" + form.log());
 		}
+		page.put("form", formCorpus);
 	}
 	
 	private void parseInputs(Elements elements) {
