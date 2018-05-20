@@ -19,6 +19,14 @@ public class PageProperties {
 	}
 	
 	public void add(PageProperties pageProperties) {
+		for(PageProperties pageProperty : this.pageProperties) {
+			String value = pageProperties.attributeValueStore.get("name");
+			if(pageProperty.attributeValueStore.containsValue(value)) {
+//				System.out.println("Already listed, skipping...");
+				return;
+			}
+				
+		}
 		this.pageProperties.add(pageProperties);
 	}
 	

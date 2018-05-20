@@ -18,7 +18,7 @@ public class Main {
 
 
 	public static void main(String[] args) throws IOException {
-		inputSource = "/var/www/html/edoctar-production/pages/Consultation/form.php";
+		inputSource = "/var/www/html/edoctar-production/pages/Consultation/index.php";
 		if(args.length > 1)
 			parseTerminalArguments(args);
 		
